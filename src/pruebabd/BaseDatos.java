@@ -23,7 +23,7 @@ public class BaseDatos {
     public Connection conexion() {
         try {
             //Cargar Driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             //Conectar al derby
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/colegio");
             //Confirmacion
@@ -63,7 +63,7 @@ public class BaseDatos {
             //Declaracion y ejecucion de consulta
             s = con.createStatement();
             String nTab = JOptionPane.showInputDialog("nombre tabla");
-            rs = s.executeQuery("select * from APP." + nTab);
+            rs = s.executeQuery("select * from " + nTab);
             //Recibimos el resultado y utilizamos metodos para imprimirlo
             ResultSetMetaData rsmd = rs.getMetaData();
             int nColumnas = rsmd.getColumnCount();
@@ -81,6 +81,7 @@ public class BaseDatos {
 
         } catch (SQLException ex) {
             System.out.println("ERROR " + ex);
+            //En caso de excepcion relanza el metodo
             select();
         }
     }
@@ -90,7 +91,7 @@ public class BaseDatos {
             //Declarar consulta y ejecutar
             s = con.createStatement();
             String cons = JOptionPane.showInputDialog("Cod");
-            s.executeUpdate("delete from APP.ALUMNOS where cod='" + cons + "'");
+            s.executeUpdate("delete from ALUMNOS where cod='" + cons + "'");
             //Confirmacion
             System.out.println("Borrado realizado");
 
